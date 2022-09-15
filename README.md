@@ -1,16 +1,16 @@
-# Laravel Docer
+# Laravel Docker
 
-PHP/Laravel, PostgreSQL, Nginx.
+PHP/Laravel, PostgreSQL, Nginx, pgAdmin.
 
 ## Table of content:
 
--   [General info](#general-info)
--   [Setup](#setup)
--   [Contacts](#contacts)
+- [General info](#general-info)
+- [Setup](#setup)
+- [Contacts](#contacts)
 
 ## General info
 
-PHP/Laravel, PostgreSQL, Nginx.
+PHP/Laravel, PostgreSQL, Nginx, pgAdmin.
 
 ## Setup
 
@@ -19,8 +19,9 @@ $ cp .env.example .env (and configurate)
 $ git clone https://github.com/laravel/laravel.git app
 $ cp ./app/.env.example. env (and configurate)
 $ docker-compose up -d --build
-$ docker-compose exec app composer install
-$ docker-compose php artisan key:generate --ansi
+$ docker-compose exec laravel composer install
+$ docker-compose laravel php artisan key:generate --ansi
+$ docker-compose laravel php artisan migrate
 ```
 
 ## Contacts
