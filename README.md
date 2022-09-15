@@ -20,8 +20,8 @@ $ git clone https://github.com/laravel/laravel.git app
 $ cp ./app/.env.example. env (and configurate)
 $ docker-compose up -d --build
 $ docker-compose exec laravel composer install
-$ docker-compose laravel php artisan key:generate --ansi
-$ docker-compose laravel php artisan migrate
+$ docker-compose exec laravel php artisan key:generate --ansi
+$ docker-compose exec laravel php artisan migrate
 ```
 
 ## Contacts
