@@ -1,28 +1,15 @@
-version: '3.0'
-
 services:
     db:
-        image: postgres:13.3
+        image: postgres:13-alpine
         container_name: ${DOCKER_NAME}-db
         restart: unless-stopped
         volumes:
+            - ./docker/postgres/init:/docker-entrypoint-initdb.d
             - ./docker/postgres/data/:/var/lib/postgresql/data/
         environment:
             POSTGRES_DB: ${DB_DATABASE}
             POSTGRES_USER: ${DB_USERNAME}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-        networks:
-            - main
-
-    pgadmin:
-        image: dpage/pgadmin4
-        container_name: ${DOCKER_NAME}-pgadmin
-        restart: unless-stopped
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-        ports:
-            - ${PGADMIN_PORT}:80
         networks:
             - main
 
@@ -39,6 +26,7 @@ services:
         working_dir: /var/www/
         volumes:
             - ./app/:/var/www
+            - ./docker/php/conf/:/usr/local/etc/php
         networks:
             - main
         depends_on:
@@ -50,9 +38,11 @@ services:
         restart: unless-stopped
         ports:
             - ${NGINX_PORT}:80
+            - ${NGINX_SSL_PORT}:443
         volumes:
             - ./app/:/var/www
             - ./docker/nginx:/etc/nginx/conf.d
+            - ./docker/certificates:/certificates
         networks:
             - main
         depends_on:
@@ -61,3 +51,4 @@ services:
 networks:
     main:
         driver: bridge
+        name: ${DOCKER_NETWORK_NAME}
